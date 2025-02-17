@@ -9,7 +9,7 @@
 sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 sudo helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 sudo helm repo update
-sudo KUBECONFIG=/etc/rancher/k3s/k3s.yaml helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --version 4.12.0-beta.0 --values values.yaml
+sudo KUBECONFIG=/etc/rancher/k3s/k3s.yaml helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --version 4.12.0 --values values.yaml
 ```
 
 <br /><br /><br /><br />
