@@ -1,0 +1,71 @@
+controller:
+  metrics:
+    enabled: true
+
+  # Empêche un conteneur bloqué ou non fonctionnel de rester en ligne, assurant ainsi 
+  # que vos pods continuent de fonctionner correctement sans intervention manuelle.
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: 10254
+    initialDelaySeconds: 10 # Le délai initial avant de commencer à vérifier l'état du pod
+    periodSeconds: 5 # La fréquence à laquelle Kubernetes vérifie l'état du pod
+    timeoutSeconds: 1 # Le délai d'attente avant de considérer la vérification comme un échec
+    failureThreshold: 2 # Le nombre de fois que la vérification doit échouer avant que le pod ne soit considéré comme non fonctionnel
+    successThreshold: 1 # Le nombre de fois que la vérification doit réussir avant que le pod ne soit considéré comme fonctionnel
+
+  # Empêche un pod de recevoir du trafic avant qu'il ne soit complètement 
+  # initialisé et prêt à répondre aux requêtes, ce qui est essentiel pour éviter les erreurs côté client.
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: 10254
+    initialDelaySeconds: 10 # Le délai initial avant de commencer à vérifier l'état du pod
+    periodSeconds: 5 # La fréquence à laquelle Kubernetes vérifie l'état du pod
+    timeoutSeconds: 1 # Le délai d'attente avant de considérer la vérification comme un échec
+    failureThreshold: 2 # Le nombre de fois que la vérification doit échouer avant que le pod ne soit considéré comme non fonctionnel
+    successThreshold: 1 # Le nombre de fois que la vérification doit réussir avant que le pod ne soit considéré comme fonctionnel
+
+  replicaCount: 6
+  autoscaling:
+    enabled: true
+    minReplicas: 6
+    maxReplicas: 25
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 70
+  resources:
+    requests:
+      cpu: 2
+      memory: 2Gi
+    limits:
+      cpu: 3
+      memory: 3Gi
+
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - nginx-ingress
+        topologyKey: "kubernetes.io/hostname"
+
+  service:
+    type: LoadBalancer
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+    # Lorsque le externalTrafficPolicy est à Local, le service est accessible uniquement depuis le noeud worker qui reçoit la requête
+    externalTrafficPolicy: "Cluster" # Local or Cluster
+
+  config:
+    use-forwarded-headers: "true"
+    compute-full-forwarded-for: "true"
+    # Cela est appliquer aux pods du noeud worker qui reçoit la requête
+    # Utilise ip_hash pour que les requêtes d'un même client soient toujours envoyées au même pod du noeud worker (notamment pour serveur de jeu)
+    load-balance: "round_robin" # round_robin, least_conn, ip_hash
+
+defaultBackend:
+  enabled: true
