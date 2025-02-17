@@ -1,4 +1,4 @@
-# Flapi - Cluster K3s - Proxy Inverse
+# KubeQuest - Cluster K3s - Proxy Inverse
 
 ## ⚙️ Setup Environment
 1. Connect to the NODE MASTER in Cluster K3S.
