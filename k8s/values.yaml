@@ -1,4 +1,9 @@
 controller:
+  admissionWebhooks:
+    enabled: true
+    patch:
+      enabled: true
+
   metrics:
     enabled: true
 
