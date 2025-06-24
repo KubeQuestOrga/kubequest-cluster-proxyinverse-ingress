@@ -1,25 +1,23 @@
-# KubeQuest - Proxy Inverse / Ingress è Cluster K3s
+# KubeQuest - Proxy Inverse / Ingress Controller - Cluster K3s
 
-## À quoi sert un proxy inverse / Ingress Controller dans Kubernetes ❓
+## À quoi sert un Proxy Inverse / Ingress Controller dans Kubernetes ❓
 Dans un cluster Kubernetes (ou K3S), les services s'exécutent dans des pods isolés, souvent sans exposition directe à Internet.
 Pour permettre l’accès aux applications depuis l’extérieur (navigateur web, API, etc.), on utilise un proxy inverse, plus précisément un Ingress Controller.
 
 🔁 Rôle principal de l’Ingress :
-Router les requêtes HTTP/HTTPS/TCP/UDP entrantes vers les bons services Kubernetes
+- Router les requêtes HTTP/HTTPS/TCP/UDP entrantes vers les bons services Kubernetes.
+- Gérer les noms de domaines (DNS) associés aux services
 
-Gérer les noms de domaines (DNS) associés à tes services
+<br />
 
 Supporter des règles avancées comme :
+- Le SSL/TLS (HTTPS)
+- Les redirections
+- Les authentifications
+- Le rate-limiting..
 
-le SSL/TLS (HTTPS),
+<br /><br /><br /><br />
 
-les redirections,
-
-les authentifications, ou encore
-
-le rate-limiting
-
-🎯 Dans ce setup, nous utilisons NGINX Ingress Controller, un des contrôleurs les plus populaires et maintenus par la communauté Kubernetes.
 
 ## ⚙️ Setup Environment
 1. Connect to the NODE MASTER in Cluster K3S.
